@@ -28,10 +28,10 @@ def main():
     # run_test_beep_and_tone()
     # run_test_go_straight_for_seconds()
     # run_test_go_straight_for_inches_using_time()
-    run_test_go_straight_for_inches_using_sensor()
+    # run_test_go_straight_for_inches_using_sensor()
     # run_test_raise_arm()
     # run_test_lower_arm()
-    # run_test_go_straight_until_black()
+    run_test_go_straight_until_black()
     # run_test_go_forward_until_distance_is_less_than()
     # run_test_tones_until_touch_sensor_is_pressed()
 
@@ -287,6 +287,22 @@ def run_test_go_straight_until_black():
     # -------------------------------------------------------------------------
     # TODO: 13. Implement this test method, then implement the method it tests.
     # -------------------------------------------------------------------------
+    # Need these for all the tests:
+    drive_system = DriveSystem()
+
+    # Test 1: Go forward until black.
+    print()
+    print('Test 1:')
+    print('Go forward until black')
+    input('Press the ENTER key to continue.')
+    drive_system.go_straight_until_black(20)
+
+    # Test 2: Go backward until black.
+    print()
+    print('Test 2:')
+    print('Go backward until black')
+    input('Press the ENTER key to continue.')
+    drive_system.go_straight_until_black(-20)
 
 
 def run_test_go_forward_until_distance_is_less_than():
@@ -381,6 +397,13 @@ class DriveSystem(object):
         a black surface, as measured by the color sensor.
         """
         pass
+        c = ColorSensor(3)
+        while True:
+            self.left_motor.turn_on(speed)
+            self.right_motor.turn_on(speed)
+            if c.get_reflected_light_intensity() <= 5:
+                self.stop()
+                break
 
     def go_forward_until_distance_is_less_than(self, inches, speed):
         """
