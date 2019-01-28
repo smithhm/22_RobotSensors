@@ -3,21 +3,21 @@ This module lets you practice the use of robot sensors.
 
 Authors: David Mutchler, Vibha Alangar, Matt Boutell, Dave Fisher,
          Mark Hays, Amanda Stouder, Aaron Wilkin, their colleagues,
-         and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+         and Haiden Smith.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import ev3dev.ev3 as ev3
 import time
 import math
 
 # -----------------------------------------------------------------------------
-# TODO 2:  With your instructor, do quiz questions 1 through 5.
+# DONE 2:  With your instructor, do quiz questions 1 through 5.
 #          After you understand the answers to those questions,
 #          mark this _TODO_ as DONE.
 # -----------------------------------------------------------------------------
 
 # -----------------------------------------------------------------------------
-# TODO 3:  With your instructor, do quiz questions 6 through XXX.
+# DONE 3:  With your instructor, do quiz questions 6 through XXX.
 #          After you understand the answers to those questions,
 #          mark this _TODO_ as DONE.
 # -----------------------------------------------------------------------------
@@ -28,7 +28,7 @@ def main():
     # run_test_beep_and_tone()
     # run_test_go_straight_for_seconds()
     # run_test_go_straight_for_inches_using_time()
-    # run_test_go_straight_for_inches_using_sensor()
+    run_test_go_straight_for_inches_using_sensor()
     # run_test_raise_arm()
     # run_test_lower_arm()
     # run_test_go_straight_until_black()
@@ -57,6 +57,14 @@ def run_test_beep_and_tone():
     #   in increments of 10, with 50 millisecond durations.
     #   Do not forget to apply the   wait   method to tone, as usual.
     # -------------------------------------------------------------------------
+    # for k in range(10):
+    #     b = Beeper()
+    #     b.beep().wait()
+
+    # for k in range(10):
+    #     t = ToneMaker()
+    #     t.tone(200, 0.5)
+
 
 
 # -----------------------------------------------------------------------------
@@ -328,7 +336,6 @@ class DriveSystem(object):
         self.left_motor = Motor('B')
         self.right_motor = Motor('C')
 
-
     def go(self, left_wheel_speed, right_wheel_speed):
         self.left_motor.turn_on(left_wheel_speed)
         self.right_motor.turn_on(right_wheel_speed)
@@ -356,7 +363,17 @@ class DriveSystem(object):
 
     def go_straight_for_inches_using_sensor(self, inches, speed):
         pass
-        # Live code this with students
+        inch_per_degrees = self.left_motor.WheelCircumference/360
+
+        self.left_motor.reset_position()
+        self.right_motor.reset_position()
+
+        while True:
+            self.left_motor.turn_on(speed)
+            self.right_motor.turn_on(speed)
+            if abs(self.left_motor.get_position() * inch_per_degrees) >= inches:
+                self.stop()
+                break
 
     def go_straight_until_black(self, speed):
         """
@@ -386,8 +403,9 @@ class DriveSystem(object):
 #   -- Motor
 #   -- TouchSensor
 #   -- ColorSensor
-#   -- IR_DistanceSensor
-#   --
+#   -- InfraredProximitySensor
+#   -- Beeper
+#   -- ToneMaker
 # USE them, but do NOT modify them.
 ###############################################################################
 class Motor(object):
